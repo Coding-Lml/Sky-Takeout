@@ -33,7 +33,6 @@ public class EmployeeController {
 
     /**
      * 登录
-     *
      * @param employeeLoginDTO
      * @return
      */
@@ -63,7 +62,6 @@ public class EmployeeController {
 
     /**
      * 退出
-     *
      * @return
      */
     @PostMapping("/logout")
@@ -72,6 +70,7 @@ public class EmployeeController {
     }
 
     /**
+     * 新增员工
      * @param employeeDTO
      * @return Result
      */
@@ -93,6 +92,12 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
     @PostMapping("/status/{status}")
     public Result startOrStop(@PathVariable Integer status, @RequestParam Long id){
         employeeService.startOrStop(status, id);
@@ -113,7 +118,7 @@ public class EmployeeController {
     /**
      * 更新员工信息
      * @param employeeDTO
-     * @return
+     * @return Result
      */
     @PutMapping
     public Result update(@RequestBody EmployeeDTO employeeDTO){
