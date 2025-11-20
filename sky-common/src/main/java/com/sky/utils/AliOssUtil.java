@@ -5,13 +5,18 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import java.io.ByteArrayInputStream;
 
+/**
+ * 该类主要是进行阿里云服务中的oss服务，进行文件实例保存，并返回一个可访问的地址，可以把图片之类的资源存储到该服务器上 数据库存储该资源的地址即可
+ */
 @Data
 @AllArgsConstructor
 @Slf4j
+@Builder
 public class AliOssUtil {
 
     private String endpoint;
