@@ -11,6 +11,25 @@
         (#{categoryId}, #{name}, #{price}, #{status}, #{description},
          #{image}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
     </insert>
+
+        <update id="update" parameterType="com.sky.entity.Setmeal">
+            UPDATE setmeal
+            <set>
+                <if test="status != null">status = #{status},</if>
+                <if test="categoryId != null">category_id = #{categoryId},</if>
+                <if test="name != null">name = #{name},</if>
+                <if test="price != null">price = #{price},</if>
+                <if test="description != null">description = #{description},</if>
+                <if test="image != null">image = #{image},</if>
+                <if test="createUser != null">create_user = #{createUser},</if>
+                <if test="updateUser != null">update_user = #{updateUser},</if>
+                <if test="createTime != null">create_time = #{createTime},</if>
+                <if test="updateTime != null">update_time = #{updateTime},</if>
+            </set>
+            WHERE id = #{id}
+        </update>
+
+
     <select id="query" resultType="com.sky.vo.SetmealVO">
         select
         s.*,c.name categoryName
