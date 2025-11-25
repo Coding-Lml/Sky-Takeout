@@ -2,6 +2,7 @@ package com.sky.mapper;
 
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
+import com.sky.vo.DishItemVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,6 @@ public interface SetmealDishMapper {
 
      @Delete("delete from setmeal_dish where id = #{id}")
      void deleteById(Long id);
+
+     List<DishItemVO> query(Long id);
 }

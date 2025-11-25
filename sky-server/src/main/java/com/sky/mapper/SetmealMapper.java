@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @author Aloong
  * @description
@@ -39,4 +41,7 @@ public interface SetmealMapper {
             "LEFT JOIN category c ON s.category_id = c.id " +
             "WHERE s.id = #{id}")
     SetmealVO get(Long id);
+
+    @Select("select * from setmeal where category_id = #{category}")
+    List<Setmeal> getByCategoryId(Long category);
 }

@@ -12,13 +12,16 @@ import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
+import com.sky.result.Result;
 import com.sky.service.SetmealService;
+import com.sky.vo.DishItemVO;
 import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -113,6 +116,17 @@ public class SetmealServiceImpl implements SetmealService {
         if (list != null && list.size() > 0) {
             setmealDishMapper.insertBatch(list);
         }
+    }
+
+    @Override
+    public List<Setmeal> getByCategoryId(Long category) {
+        return setmealMapper.getByCategoryId(category);
+    }
+
+    @Override
+    public List<DishItemVO> getBySetmealId(Long id) {
+        List<DishItemVO> list = setmealDishMapper.query(id);
+        return list;
     }
 
 }

@@ -37,4 +37,13 @@
             </otherwise>
         </choose>
     </select>
+    <select id="getList" resultType="com.sky.entity.Category">
+        SELECT
+        *
+        FROM category      -- 假设你要查询的表是 category
+        WHERE 1 = 1         -- 这个条件永远为真，作为基础条件
+        <if test="type != null">  -- 判断 type 是否为空
+            AND type = #{type}  -- 如果 type 不为空，则加入筛选条件
+        </if>
+    </select>
 </mapper>

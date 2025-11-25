@@ -16,4 +16,14 @@
             #{dishId}
         </foreach>
     </select>
+    <select id="query" resultType="com.sky.vo.DishItemVO">
+        SELECT
+            d.name AS name,                     -- 菜品名称
+            sd.copies AS copies,                -- 份数
+            d.image AS image,                   -- 菜品图片
+            d.description AS description        -- 菜品描述
+        FROM setmeal_dish sd                    -- 套餐菜品关系表
+                 JOIN dish d ON sd.dish_id = d.id        -- 菜品表
+        WHERE sd.setmeal_id = #{setmealId}      -- 根据套餐ID进行筛选
+    </select>
 </mapper>
