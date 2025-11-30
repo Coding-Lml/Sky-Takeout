@@ -9,9 +9,11 @@ import com.sky.service.DishService;
 import com.sky.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Aloong
@@ -26,6 +28,9 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     /**
      * 新增菜品
      * @param dishDTO
@@ -35,6 +40,10 @@ public class DishController {
     public Result save(@RequestBody DishDTO dishDTO) {
         log.info("新增菜品：{}",dishDTO);
         dishService.saveWithFlavor(dishDTO);
+        // 清除菜品缓存
+        String pattern = "dish_" + dishDTO.getCategoryId();
+        clearCache(pattern);
+
         return Result.success();
     }
 
@@ -58,6 +67,10 @@ public class DishController {
     public Result delete(@RequestParam List<Long> ids) {
         log.info("删除指定id的菜品:{}", ids);
         dishService.deleteBatch(ids);
+
+        // 清除所有菜品缓存最方便
+        clearCache("dish_*");
+
         return Result.success();
     }
 
@@ -70,6 +83,7 @@ public class DishController {
     @PostMapping("/status/{status}")
     public Result updateStatus(@PathVariable Integer status, @RequestParam Long id) {
         dishService.updateStatus(status, id);
+        clearCache("dish_*");
         return Result.success();
     }
 
@@ -92,6 +106,7 @@ public class DishController {
     @PutMapping
     public Result update(@RequestBody DishDTO dishDTO) {
         dishService.update(dishDTO);
+        clearCache("dish_*");
         return Result.success();
     }
 
@@ -106,4 +121,12 @@ public class DishController {
         return Result.success(list);
     }
 
+    /**
+     * 管理端修改菜品时 对应清除redis缓存 保持数据一致性
+     * @param pattern
+     */
+    private void clearCache(String pattern) {
+        Set<String> keys = stringRedisTemplate.keys(pattern);
+        stringRedisTemplate.delete(keys);
+    }
 }
